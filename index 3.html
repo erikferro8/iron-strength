@@ -1,0 +1,230 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Iron Strength</title>
+<style>
+:root{--black:#0B0D10;--char:#14181F;--slate:#232A33;--muted:#9CA3AF;--bg:#0B0D10;--card:#14181F;--line:rgba(255,255,255,.10);--red:#C0392B;--red2:#A93226;--redTint:rgba(192,57,43,.10);--shadow:0 14px 38px rgba(0,0,0,.45);--r:18px}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial;color:#fff;background:linear-gradient(180deg,var(--black),#060708)}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(11,13,16,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);max-width:430px;margin:0 auto;padding:12px 14px;display:flex;align-items:center;justify-content:space-between}
+.wrap{max-width:430px;margin:0 auto;padding:14px 14px 110px}
+.h1{font-size:22px;font-weight:900;letter-spacing:-.02em}.sub{font-size:12px;color:var(--muted);font-weight:600}
+.sectionLabel{font-size:12px;color:var(--muted);font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.card{background:rgba(20,24,31,.92);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.cardPad{padding:14px}
+.btn{border:1px solid transparent;border-radius:14px;padding:12px 14px;font-weight:900;font-size:14px;cursor:pointer}
+.btnPrimary{background:var(--red);color:#fff}.btnPrimary:active{background:var(--red2)}
+.btnGhost{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#fff}.btnGhost:active{background:rgba(255,255,255,.10)}
+.row{display:flex;gap:10px}.wfull{width:100%}
+.chip{font-size:12px;font-weight:900;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04)}
+.chip.red{border-color:rgba(192,57,43,.35);background:var(--redTint);color:#ffd9d6}
+.list{margin-top:12px;display:flex;flex-direction:column;gap:10px}
+.item{text-align:left;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.04);padding:14px;cursor:pointer;position:relative;overflow:hidden}
+.item.sel{background:rgba(20,24,31,.98);border-color:rgba(192,57,43,.45);box-shadow:0 0 0 4px rgba(192,57,43,.16), var(--shadow)}
+.item.sel:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--red)}
+.ctaRow{display:none;margin-top:12px;gap:10px}.item.sel .ctaRow{display:flex}
+.grid{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.datebox{width:56px;text-align:center}.dow{font-size:12px;color:var(--muted);font-weight:900}.dom{font-size:13px;font-weight:900}
+.title{font-size:15px;font-weight:900}.meta{font-size:12px;color:var(--muted);margin-top:3px}
+.hero{border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#000}
+.hero .img{height:180px;background-size:cover;background-position:center;position:relative}
+.hero .grad{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.88))}
+.hero .overlay{position:absolute;left:14px;right:14px;bottom:14px}
+.heroTitle{font-size:22px;font-weight:950;letter-spacing:-.02em}.heroMeta{font-size:12px;color:#e5e7eb;margin-top:4px}
+.exerciseRow{display:flex;gap:10px;align-items:center;padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);cursor:pointer}
+.thumb{width:74px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.10);background-size:cover;background-position:center;flex:0 0 auto;position:relative;overflow:hidden}
+.playBadge{position:absolute;right:6px;bottom:6px;background:rgba(0,0,0,.62);border:1px solid rgba(255,255,255,.18);padding:3px 6px;border-radius:999px;font-size:10px;font-weight:900}
+.exerciseName{font-weight:900;font-size:14px}.exerciseRx{font-size:12px;color:var(--muted);margin-top:2px}
+.chev{color:rgba(255,255,255,.45);font-weight:900}
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:10px;z-index:30;max-width:430px;width:calc(100% - 20px);border:1px solid rgba(255,255,255,.10);background:rgba(11,13,16,.82);backdrop-filter:blur(10px);border-radius:22px;padding:10px;display:flex;gap:8px}
+.navbtn{flex:1;text-align:center;padding:10px 8px;border-radius:16px;font-size:12px;font-weight:900;color:rgba(255,255,255,.75);cursor:pointer}
+.navbtn.active{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.08)}
+.modalScrim{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:flex-end;justify-content:center;z-index:50}
+.modal{width:100%;max-width:430px;border-radius:22px 22px 0 0;border:1px solid rgba(255,255,255,.10);background:rgba(20,24,31,.98);box-shadow:0 -20px 60px rgba(0,0,0,.6);padding:14px}
+.modalTop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.modalTitle{font-weight:950}
+.x{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#fff;border-radius:12px;padding:8px 10px;font-weight:900}
+.sheetList{margin-top:12px;max-height:260px;overflow:auto;border-radius:16px;border:1px solid rgba(255,255,255,.10)}
+.opt{padding:14px 12px;border-bottom:1px solid rgba(255,255,255,.06);font-weight:900;display:flex;justify-content:space-between}
+.opt:last-child{border-bottom:none}.opt.sel{background:rgba(192,57,43,.14)}
+.timerFace{margin-top:14px;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px;text-align:center}
+.time{font-size:44px;font-weight:950;letter-spacing:-.03em}
+.pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+.pill{padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);font-weight:900;font-size:12px;cursor:pointer}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:92px;z-index:60;background:#000;border:1px solid rgba(255,255,255,.12);padding:10px 12px;border-radius:14px;font-weight:800;font-size:13px;opacity:0;transition:opacity .18s}
+.toast.show{opacity:1}
+.setRow{display:grid;grid-template-columns:64px 1fr 1fr;gap:10px;align-items:center;margin-top:10px}
+.pillSet{display:inline-flex;align-items:center;justify-content:center;width:62px;height:40px;border-radius:14px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);font-weight:950}
+.fieldBtn{height:40px;border-radius:14px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:space-between;padding:0 12px;cursor:pointer}
+.fieldBtn small{color:rgba(255,255,255,.55);font-weight:900}
+.note{width:100%;margin-top:12px;min-height:70px;border-radius:14px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);color:#fff;padding:10px 12px}
+.sticky{position:fixed;left:50%;transform:translateX(-50%);bottom:78px;max-width:430px;width:calc(100% - 20px);z-index:25;display:none;gap:10px}
+.sticky .btn{flex:1}
+.media{border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,.10)}
+.media .frame{height:200px;background-size:cover;background-position:center;position:relative}
+.media .tap{position:absolute;left:12px;right:12px;bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.badge{background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.16);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:950}
+.formTips{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:8px 10px;border-radius:14px;font-weight:950;font-size:12px}
+</style></head><body>
+<div id="app"></div><div id="toast" class="toast"></div>
+
+<div id="pickerScrim" class="modalScrim"><div class="modal">
+  <div class="modalTop"><div><div class="sectionLabel" id="pickerLabel">Select</div><div class="modalTitle" id="pickerTitle">Value</div></div>
+  <button class="x" onclick="closePicker()">Done</button></div>
+  <div class="sheetList" id="pickerList"></div>
+</div></div>
+
+<div id="timerScrim" class="modalScrim"><div class="modal" style="background:rgba(11,13,16,.98)">
+  <div class="modalTop"><div><div class="sectionLabel">Rest Timer</div><div class="modalTitle">Stopwatch</div></div>
+  <button class="x" onclick="closeTimer()">Close</button></div>
+  <div class="timerFace">
+    <div class="time" id="timeTxt">00:00</div><div class="sub" id="timerSub">Tap a preset or Start</div>
+    <div class="pills">
+      <div class="pill" onclick="preset(30)">30s</div><div class="pill" onclick="preset(60)">60s</div>
+      <div class="pill" onclick="preset(90)">90s</div><div class="pill" onclick="preset(120)">2:00</div><div class="pill" onclick="preset(180)">3:00</div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn btnGhost wfull" onclick="resetTimer()">Reset</button>
+      <button class="btn btnPrimary wfull" id="startBtn" onclick="toggleTimer()">Start</button>
+    </div>
+  </div>
+</div></div>
+
+<script>
+const state={route:location.hash.replace('#','')||'/calendar',selectedWorkoutId:null,currentWorkoutId:null,currentExerciseId:null};
+const banners={lower:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjkwMCIgdmlld0JveD0iMCAwIDE2MDAgOTAwIj4KICAgIDxkZWZzPgogICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMwQjBEMTAiLz48c3RvcCBvZmZzZXQ9IjAuNTUiIHN0b3AtY29sb3I9IiMxNDE4MUYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyMzJBMzMiLz4KICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgPHJhZGlhbEdyYWRpZW50IGlkPSJyIiBjeD0iMC4yNSIgY3k9IjAuMjUiIHI9IjAuOSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjQzAzOTJCIiBzdG9wLW9wYWNpdHk9IjAuOSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0MwMzkyQiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9InVybCgjZykiLz48cmVjdCB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9InVybCgjcikiLz4KICAgIDxnIG9wYWNpdHk9IjAuMzUiPjxwYXRoIGQ9Ik0wLDcwMCBDMjUwLDUyMCAzODAsNzYwIDY1MCw2MTAgQzg2MCw0OTIgMTAyMCw2MzAgMTIwMCw1NDAgQzEzODAsNDUwIDE1MDAsNTIwIDE2MDAsNDcwIEwxNjAwLDkwMCBMMCw5MDAgWiIgZmlsbD0iIzAwMCIvPjwvZz4KICAgIDxnIG9wYWNpdHk9IjAuNDUiPjxjaXJjbGUgY3g9IjEyODAiIGN5PSIyMjAiIHI9IjE5MCIgZmlsbD0iI0MwMzkyQiIvPjxjaXJjbGUgY3g9IjEyODAiIGN5PSIyMjAiIHI9IjE5MCIgZmlsbD0iI0MwMzkyQiIgb3BhY2l0eT0iMC4yNSIvPjwvZz4KICAgIDx0ZXh0IHg9IjgwIiB5PSI2NTAiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCxTZWdvZSBVSSxSb2JvdG8sSGVsdmV0aWNhLEFyaWFsIiBmb250LXNpemU9Ijg4IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5MT1dFUiBCT0RZPC90ZXh0PgogICAgPHRleHQgeD0iODQiIHk9IjcyMCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LFNlZ29lIFVJLFJvYm90byxIZWx2ZXRpY2EsQXJpYWwiIGZvbnQtc2l6ZT0iMzQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNEMUQ1REIiPkdsdXRlcyDigKIgUXVhZHMg4oCiIENvcmU8L3RleHQ+CiAgICA8L3N2Zz4=",upper:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjkwMCIgdmlld0JveD0iMCAwIDE2MDAgOTAwIj4KICAgIDxkZWZzPgogICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMwQjBEMTAiLz48c3RvcCBvZmZzZXQ9IjAuNTUiIHN0b3AtY29sb3I9IiMxNDE4MUYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyMzJBMzMiLz4KICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgPHJhZGlhbEdyYWRpZW50IGlkPSJyIiBjeD0iMC4yNSIgY3k9IjAuMjUiIHI9IjAuOSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjQzAzOTJCIiBzdG9wLW9wYWNpdHk9IjAuOSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0MwMzkyQiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9InVybCgjZykiLz48cmVjdCB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9InVybCgjcikiLz4KICAgIDxnIG9wYWNpdHk9IjAuMzUiPjxwYXRoIGQ9Ik0wLDcwMCBDMjUwLDUyMCAzODAsNzYwIDY1MCw2MTAgQzg2MCw0OTIgMTAyMCw2MzAgMTIwMCw1NDAgQzEzODAsNDUwIDE1MDAsNTIwIDE2MDAsNDcwIEwxNjAwLDkwMCBMMCw5MDAgWiIgZmlsbD0iIzAwMCIvPjwvZz4KICAgIDxnIG9wYWNpdHk9IjAuNDUiPjxjaXJjbGUgY3g9IjEyODAiIGN5PSIyMjAiIHI9IjE5MCIgZmlsbD0iI0MwMzkyQiIvPjxjaXJjbGUgY3g9IjEyODAiIGN5PSIyMjAiIHI9IjE5MCIgZmlsbD0iI0MwMzkyQiIgb3BhY2l0eT0iMC4yNSIvPjwvZz4KICAgIDx0ZXh0IHg9IjgwIiB5PSI2NTAiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCxTZWdvZSBVSSxSb2JvdG8sSGVsdmV0aWNhLEFyaWFsIiBmb250LXNpemU9Ijg4IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5VUFBFUiBCT0RZPC90ZXh0PgogICAgPHRleHQgeD0iODQiIHk9IjcyMCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LFNlZ29lIFVJLFJvYm90byxIZWx2ZXRpY2EsQXJpYWwiIGZvbnQtc2l6ZT0iMzQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNEMUQ1REIiPkJhY2sg4oCiIENoZXN0IOKAoiBTaG91bGRlcnM8L3RleHQ+CiAgICA8L3N2Zz4=",conditioning:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjkwMCIgdmlld0JveD0iMCAwIDE2MDAgOTAwIj4KICAgIDxkZWZzPgogICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMwQjBEMTAiLz48c3RvcCBvZmZzZXQ9IjAuNTUiIHN0b3AtY29sb3I9IiMxNDE4MUYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyMzJBMzMiLz4KICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgPHJhZGlhbEdyYWRpZW50IGlkPSJyIiBjeD0iMC4yNSIgY3k9IjAuMjUiIHI9IjAuOSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjQzAzOTJCIiBzdG9wLW9wYWNpdHk9IjAuOSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0MwMzkyQiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9InVybCgjZykiLz48cmVjdCB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9InVybCgjcikiLz4KICAgIDxnIG9wYWNpdHk9IjAuMzUiPjxwYXRoIGQ9Ik0wLDcwMCBDMjUwLDUyMCAzODAsNzYwIDY1MCw2MTAgQzg2MCw0OTIgMTAyMCw2MzAgMTIwMCw1NDAgQzEzODAsNDUwIDE1MDAsNTIwIDE2MDAsNDcwIEwxNjAwLDkwMCBMMCw5MDAgWiIgZmlsbD0iIzAwMCIvPjwvZz4KICAgIDxnIG9wYWNpdHk9IjAuNDUiPjxjaXJjbGUgY3g9IjEyODAiIGN5PSIyMjAiIHI9IjE5MCIgZmlsbD0iI0MwMzkyQiIvPjxjaXJjbGUgY3g9IjEyODAiIGN5PSIyMjAiIHI9IjE5MCIgZmlsbD0iI0MwMzkyQiIgb3BhY2l0eT0iMC4yNSIvPjwvZz4KICAgIDx0ZXh0IHg9IjgwIiB5PSI2NTAiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCxTZWdvZSBVSSxSb2JvdG8sSGVsdmV0aWNhLEFyaWFsIiBmb250LXNpemU9Ijg4IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5DT05ESVRJT05JTkc8L3RleHQ+CiAgICA8dGV4dCB4PSI4NCIgeT0iNzIwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsU2Vnb2UgVUksUm9ib3RvLEhlbHZldGljYSxBcmlhbCIgZm9udC1zaXplPSIzNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0QxRDVEQiI+Wm9uZSAyIOKAoiBDb3JlIOKAoiBTd2VhdDwvdGV4dD4KICAgIDwvc3ZnPg=="};
+const loops={"squat": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiB2aWV3Qm94PSIwIDAgNjQwIDM2MCI+CiAgICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMEIwRDEwIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMjMyQTMzIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgcng9IjI4IiBmaWxsPSJ1cmwoI2JnKSIvPgogICAgPGcgb3BhY2l0eT0iMC4yMiI+PGNpcmNsZSBjeD0iNTIwIiBjeT0iOTAiIHI9IjEyMCIgZmlsbD0iI0MwMzkyQiIvPjxjaXJjbGUgY3g9IjUyMCIgY3k9IjkwIiByPSIxMjAiIGZpbGw9IiNDMDM5MkIiIG9wYWNpdHk9IjAuMzUiLz48L2c+CiAgICA8cGF0aCBpZD0icCIgZD0iTTEyMCAyNTAgQyAyMDAgMTIwLCAzNjAgMTIwLCA0MjAgMjUwIiBmaWxsPSJub25lIiBzdHJva2U9IiNEMUQ1REIiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC45Ii8+CiAgICA8Y2lyY2xlIHI9IjE0IiBmaWxsPSIjQzAzOTJCIj48YW5pbWF0ZU1vdGlvbiBkdXI9IjEuNHMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIj48bXBhdGggaHJlZj0iI3AiLz48L2FuaW1hdGVNb3Rpb24+PC9jaXJjbGU+CiAgICA8dGV4dCB4PSIyNiIgeT0iNDYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCxTZWdvZSBVSSxSb2JvdG8sSGVsdmV0aWNhLEFyaWFsIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5TUVVBVDwvdGV4dD4KICAgIDx0ZXh0IHg9IjI2IiB5PSI3OCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LFNlZ29lIFVJLFJvYm90byxIZWx2ZXRpY2EsQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM5Q0EzQUYiPlRhcCB0byBwbGF5IHByZXZpZXc8L3RleHQ+CiAgICA8L3N2Zz4=", "hinge": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiB2aWV3Qm94PSIwIDAgNjQwIDM2MCI+CiAgICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMEIwRDEwIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMjMyQTMzIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgcng9IjI4IiBmaWxsPSJ1cmwoI2JnKSIvPgogICAgPGcgb3BhY2l0eT0iMC4yMiI+PGNpcmNsZSBjeD0iNTIwIiBjeT0iOTAiIHI9IjEyMCIgZmlsbD0iI0MwMzkyQiIvPjxjaXJjbGUgY3g9IjUyMCIgY3k9IjkwIiByPSIxMjAiIGZpbGw9IiNDMDM5MkIiIG9wYWNpdHk9IjAuMzUiLz48L2c+CiAgICA8cGF0aCBpZD0icCIgZD0iTTEyMCAyNTAgQyAyMDAgMTIwLCAzNjAgMTIwLCA0MjAgMjUwIiBmaWxsPSJub25lIiBzdHJva2U9IiNEMUQ1REIiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC45Ii8+CiAgICA8Y2lyY2xlIHI9IjE0IiBmaWxsPSIjQzAzOTJCIj48YW5pbWF0ZU1vdGlvbiBkdXI9IjEuNHMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIj48bXBhdGggaHJlZj0iI3AiLz48L2FuaW1hdGVNb3Rpb24+PC9jaXJjbGU+CiAgICA8dGV4dCB4PSIyNiIgeT0iNDYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCxTZWdvZSBVSSxSb2JvdG8sSGVsdmV0aWNhLEFyaWFsIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5ISU5HRTwvdGV4dD4KICAgIDx0ZXh0IHg9IjI2IiB5PSI3OCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LFNlZ29lIFVJLFJvYm90byxIZWx2ZXRpY2EsQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM5Q0EzQUYiPlRhcCB0byBwbGF5IHByZXZpZXc8L3RleHQ+CiAgICA8L3N2Zz4=", "press": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiB2aWV3Qm94PSIwIDAgNjQwIDM2MCI+CiAgICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMEIwRDEwIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMjMyQTMzIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgcng9IjI4IiBmaWxsPSJ1cmwoI2JnKSIvPgogICAgPGcgb3BhY2l0eT0iMC4yMiI+PGNpcmNsZSBjeD0iNTIwIiBjeT0iOTAiIHI9IjEyMCIgZmlsbD0iI0MwMzkyQiIvPjxjaXJjbGUgY3g9IjUyMCIgY3k9IjkwIiByPSIxMjAiIGZpbGw9IiNDMDM5MkIiIG9wYWNpdHk9IjAuMzUiLz48L2c+CiAgICA8cGF0aCBpZD0icCIgZD0iTTEyMCAyNTAgQyAyMDAgMTIwLCAzNjAgMTIwLCA0MjAgMjUwIiBmaWxsPSJub25lIiBzdHJva2U9IiNEMUQ1REIiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC45Ii8+CiAgICA8Y2lyY2xlIHI9IjE0IiBmaWxsPSIjQzAzOTJCIj48YW5pbWF0ZU1vdGlvbiBkdXI9IjEuNHMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIj48bXBhdGggaHJlZj0iI3AiLz48L2FuaW1hdGVNb3Rpb24+PC9jaXJjbGU+CiAgICA8dGV4dCB4PSIyNiIgeT0iNDYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCxTZWdvZSBVSSxSb2JvdG8sSGVsdmV0aWNhLEFyaWFsIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5QUkVTUzwvdGV4dD4KICAgIDx0ZXh0IHg9IjI2IiB5PSI3OCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LFNlZ29lIFVJLFJvYm90byxIZWx2ZXRpY2EsQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM5Q0EzQUYiPlRhcCB0byBwbGF5IHByZXZpZXc8L3RleHQ+CiAgICA8L3N2Zz4=", "pull": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiB2aWV3Qm94PSIwIDAgNjQwIDM2MCI+CiAgICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMEIwRDEwIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMjMyQTMzIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgcng9IjI4IiBmaWxsPSJ1cmwoI2JnKSIvPgogICAgPGcgb3BhY2l0eT0iMC4yMiI+PGNpcmNsZSBjeD0iNTIwIiBjeT0iOTAiIHI9IjEyMCIgZmlsbD0iI0MwMzkyQiIvPjxjaXJjbGUgY3g9IjUyMCIgY3k9IjkwIiByPSIxMjAiIGZpbGw9IiNDMDM5MkIiIG9wYWNpdHk9IjAuMzUiLz48L2c+CiAgICA8cGF0aCBpZD0icCIgZD0iTTEyMCAyNTAgQyAyMDAgMTIwLCAzNjAgMTIwLCA0MjAgMjUwIiBmaWxsPSJub25lIiBzdHJva2U9IiNEMUQ1REIiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC45Ii8+CiAgICA8Y2lyY2xlIHI9IjE0IiBmaWxsPSIjQzAzOTJCIj48YW5pbWF0ZU1vdGlvbiBkdXI9IjEuNHMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIj48bXBhdGggaHJlZj0iI3AiLz48L2FuaW1hdGVNb3Rpb24+PC9jaXJjbGU+CiAgICA8dGV4dCB4PSIyNiIgeT0iNDYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCxTZWdvZSBVSSxSb2JvdG8sSGVsdmV0aWNhLEFyaWFsIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5QVUxMPC90ZXh0PgogICAgPHRleHQgeD0iMjYiIHk9Ijc4IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsU2Vnb2UgVUksUm9ib3RvLEhlbHZldGljYSxBcmlhbCIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzlDQTNBRiI+VGFwIHRvIHBsYXkgcHJldmlldzwvdGV4dD4KICAgIDwvc3ZnPg==", "core": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiB2aWV3Qm94PSIwIDAgNjQwIDM2MCI+CiAgICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMEIwRDEwIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMjMyQTMzIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgcng9IjI4IiBmaWxsPSJ1cmwoI2JnKSIvPgogICAgPGcgb3BhY2l0eT0iMC4yMiI+PGNpcmNsZSBjeD0iNTIwIiBjeT0iOTAiIHI9IjEyMCIgZmlsbD0iI0MwMzkyQiIvPjxjaXJjbGUgY3g9IjUyMCIgY3k9IjkwIiByPSIxMjAiIGZpbGw9IiNDMDM5MkIiIG9wYWNpdHk9IjAuMzUiLz48L2c+CiAgICA8cGF0aCBpZD0icCIgZD0iTTEyMCAyNTAgQyAyMDAgMTIwLCAzNjAgMTIwLCA0MjAgMjUwIiBmaWxsPSJub25lIiBzdHJva2U9IiNEMUQ1REIiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC45Ii8+CiAgICA8Y2lyY2xlIHI9IjE0IiBmaWxsPSIjQzAzOTJCIj48YW5pbWF0ZU1vdGlvbiBkdXI9IjEuNHMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIj48bXBhdGggaHJlZj0iI3AiLz48L2FuaW1hdGVNb3Rpb24+PC9jaXJjbGU+CiAgICA8dGV4dCB4PSIyNiIgeT0iNDYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCxTZWdvZSBVSSxSb2JvdG8sSGVsdmV0aWNhLEFyaWFsIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5DT1JFPC90ZXh0PgogICAgPHRleHQgeD0iMjYiIHk9Ijc4IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsU2Vnb2UgVUksUm9ib3RvLEhlbHZldGljYSxBcmlhbCIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzlDQTNBRiI+VGFwIHRvIHBsYXkgcHJldmlldzwvdGV4dD4KICAgIDwvc3ZnPg==", "cardio": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiB2aWV3Qm94PSIwIDAgNjQwIDM2MCI+CiAgICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMEIwRDEwIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMjMyQTMzIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgcng9IjI4IiBmaWxsPSJ1cmwoI2JnKSIvPgogICAgPGcgb3BhY2l0eT0iMC4yMiI+PGNpcmNsZSBjeD0iNTIwIiBjeT0iOTAiIHI9IjEyMCIgZmlsbD0iI0MwMzkyQiIvPjxjaXJjbGUgY3g9IjUyMCIgY3k9IjkwIiByPSIxMjAiIGZpbGw9IiNDMDM5MkIiIG9wYWNpdHk9IjAuMzUiLz48L2c+CiAgICA8cGF0aCBpZD0icCIgZD0iTTEyMCAyNTAgQyAyMDAgMTIwLCAzNjAgMTIwLCA0MjAgMjUwIiBmaWxsPSJub25lIiBzdHJva2U9IiNEMUQ1REIiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC45Ii8+CiAgICA8Y2lyY2xlIHI9IjE0IiBmaWxsPSIjQzAzOTJCIj48YW5pbWF0ZU1vdGlvbiBkdXI9IjEuNHMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIj48bXBhdGggaHJlZj0iI3AiLz48L2FuaW1hdGVNb3Rpb24+PC9jaXJjbGU+CiAgICA8dGV4dCB4PSIyNiIgeT0iNDYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCxTZWdvZSBVSSxSb2JvdG8sSGVsdmV0aWNhLEFyaWFsIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5DQVJESU88L3RleHQ+CiAgICA8dGV4dCB4PSIyNiIgeT0iNzgiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCxTZWdvZSBVSSxSb2JvdG8sSGVsdmV0aWNhLEFyaWFsIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjOUNBM0FGIj5UYXAgdG8gcGxheSBwcmV2aWV3PC90ZXh0PgogICAgPC9zdmc+"};
+const dbKey="iron_strength_static_v2";
+function seed(){
+  const today=new Date(); const ymd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const days=[0,1,2,3,4,5,6].map(i=>{const d=new Date(today);d.setDate(today.getDate()+i);return ymd(d);});
+  const workouts=[
+    {id:"w1",type:"guided",kind:"lower",title:"Lower Body (Glutes + Quads)",tags:["glutes","quads","core"],duration:55,exercises:[
+      {id:"e1",name:"Leg Press",rx:"4 x 10–12",loop:"squat"},{id:"e2",name:"Dumbbell RDL",rx:"3 x 8–10",loop:"hinge"},{id:"e3",name:"Hip Thrust",rx:"4 x 8–12",loop:"hinge"},{id:"e4",name:"Cable Abduction",rx:"3 x 12–15",loop:"squat"},{id:"e5",name:"Dead Bug",rx:"3 x 8/side",loop:"core"}
+    ]},
+    {id:"w2",type:"guided",kind:"upper",title:"Upper Body (Push + Pull)",tags:["back","chest","shoulders"],duration:55,exercises:[
+      {id:"e6",name:"Lat Pulldown",rx:"4 x 8–12",loop:"pull"},{id:"e7",name:"Incline DB Press",rx:"4 x 8–12",loop:"press"},{id:"e8",name:"Seated Cable Row",rx:"3 x 10–12",loop:"pull"},{id:"e9",name:"DB Lateral Raise",rx:"3 x 12–15",loop:"press"},{id:"e10",name:"Plank",rx:"3 x 30–45s",loop:"core"}
+    ]},
+    {id:"w3",type:"optional",kind:"conditioning",title:"Optional Conditioning (Zone 2 + Core)",tags:["cardio","core"],duration:35,exercises:[
+      {id:"e11",name:"Incline Walk",rx:"25 min (RPE 6)",loop:"cardio"},{id:"e12",name:"Hanging Knee Raise",rx:"3 x 8–12",loop:"core"},{id:"e13",name:"Side Plank",rx:"2 x 30s/side",loop:"core"}
+    ]}
+  ];
+  const schedule=days.map((d,i)=>({date:d,workoutId:workouts[i%3].id}));
+  return {workouts,schedule,logs:{}};
+}
+function getDB(){const raw=localStorage.getItem(dbKey); if(!raw){const s=seed();localStorage.setItem(dbKey,JSON.stringify(s));return s;} try{return JSON.parse(raw);}catch(e){const s=seed();localStorage.setItem(dbKey,JSON.stringify(s));return s;}}
+function setDB(db){localStorage.setItem(dbKey,JSON.stringify(db));}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1400);}
+function nav(to){state.route=to;location.hash='#'+to;render();}
+window.addEventListener('hashchange',()=>{state.route=location.hash.replace('#','')||'/calendar';render();});
+function topbar(title,rightHtml){return `<div class="topbar"><div><div class="h1">${title}</div><div class="sub">Iron Strength</div></div><div>${rightHtml||''}</div></div>`;}
+function chip(type){return `<span class="chip ${type==='guided'?'red':''}">${type==='guided'?'Guided':'Optional'}</span>`;}
+function calendarPage(){
+  const db=getDB(); const items=db.schedule.map(s=>({...s,w:db.workouts.find(x=>x.id===s.workoutId)}));
+  if(!state.selectedWorkoutId) state.selectedWorkoutId=items[0]?.workoutId;
+  const list=items.map(it=>{
+    const sel=it.workoutId===state.selectedWorkoutId;
+    return `<div class="item ${sel?'sel':''}" onclick="selectWorkout('${it.workoutId}')">
+      <div class="grid"><div style="display:flex;gap:12px;align-items:center">
+        <div class="datebox"><div class="dow">${new Date(it.date+'T12:00:00').toLocaleDateString(undefined,{weekday:'short'})}</div>
+        <div class="dom">${new Date(it.date+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})}</div></div>
+        <div><div class="title">${it.w.title}</div><div class="meta">${it.w.tags.join(' • ')} • ${it.w.duration} min</div></div>
+      </div>${chip(it.w.type)}</div>
+      <div class="ctaRow">
+        <button class="btn btnPrimary wfull" onclick="event.stopPropagation();openWorkout('${it.workoutId}')">View workout</button>
+        <button class="btn btnGhost wfull" onclick="event.stopPropagation();openWorkout('${it.workoutId}')">Details</button>
+      </div>
+    </div>`;
+  }).join('');
+  return topbar('Calendar','')+`<div class="wrap"><div class="card cardPad"><div class="sectionLabel">This Week</div><div class="sub" style="margin-top:6px">Tap a workout to highlight it.</div><div class="list">${list}</div></div></div>`;
+}
+function workoutsPage(){
+  const db=getDB();
+  const rows=db.workouts.map(w=>`<div class="exerciseRow" onclick="openWorkout('${w.id}')">
+    <div class="thumb" style="background-image:url('${banners[w.kind]}')"></div>
+    <div style="flex:1"><div class="exerciseName">${w.title}</div><div class="exerciseRx">${w.tags.join(' • ')} • ${w.duration} min</div></div>
+    <div>${chip(w.type)}</div></div>`).join('');
+  return topbar('Workouts','')+`<div class="wrap"><div class="card cardPad"><div class="sectionLabel">All Workouts</div><div class="list">${rows}</div></div></div>`;
+}
+function workoutDetailPage(id){
+  const db=getDB(); const w=db.workouts.find(x=>x.id===id)||db.workouts[0];
+  const exRows=w.exercises.map(ex=>`<div class="exerciseRow" onclick="openExercise('${w.id}','${ex.id}')">
+    <div class="thumb" style="background-image:url('${loops[ex.loop]}')"><div class="playBadge">Preview</div></div>
+    <div style="flex:1"><div class="exerciseName">${ex.name}</div><div class="exerciseRx">${ex.rx}</div></div><div class="chev">›</div></div>`).join('');
+  return topbar('Workout','')+`<div class="wrap">
+    <div class="hero"><div class="img" style="background-image:url('${banners[w.kind]}')"><div class="grad"></div>
+      <div class="overlay"><div class="heroTitle">${w.title}</div><div class="heroMeta">${w.tags.join(' • ')} • ${w.duration} min</div>
+        <div class="row" style="margin-top:12px"><button class="btn btnPrimary wfull" onclick="toast('Workout started')">Start workout</button></div>
+      </div></div></div>
+    <div style="margin-top:12px" class="card cardPad"><div class="sectionLabel">Exercises</div><div class="list" style="margin-top:10px">${exRows}</div></div>
+  </div>`;
+}
+function exercisePage(wid,eid){
+  const db=getDB(); const w=db.workouts.find(x=>x.id===wid); const ex=w.exercises.find(x=>x.id===eid);
+  const key=wid+":"+eid; if(!db.logs[key]){db.logs[key]={notes:"",sets:Array.from({length:4}).map((_,i)=>({set:i+1,weight:null,reps:null}))};setDB(db);}
+  const log=db.logs[key]; const rows=log.sets.map((s,i)=>`<div class="setRow">
+    <div class="pillSet">Set ${s.set}</div>
+    <div class="fieldBtn" onclick="openPicker('Weight','Select weight',${i},'weight')"><span>${s.weight??'—'}</span><small>lb</small></div>
+    <div class="fieldBtn" onclick="openPicker('Reps','Select reps',${i},'reps')"><span>${s.reps??'—'}</span><small>reps</small></div>
+  </div>`).join('');
+  return topbar('Exercise',`<button class="btn btnGhost" style="padding:10px 12px" onclick="openTimer()">⏱</button>`)+`
+    <div class="wrap">
+      <div class="card cardPad"><div class="sectionLabel">${w.title}</div><div style="margin-top:6px;font-size:18px;font-weight:950">${ex.name}</div>
+        <div class="sub" style="margin-top:6px">${ex.rx} • Static until tapped</div>
+        <div class="media" style="margin-top:12px"><div class="frame" style="background-image:url('${loops[ex.loop]}')" onclick="togglePreview()">
+          <div class="tap"><div class="badge" id="previewBadge">Preview (tap)</div>
+          <div class="formTips" onclick="event.stopPropagation();toast('Controlled tempo. Full range.');">Form tips</div></div></div></div>
+      </div>
+      <div class="card cardPad" style="margin-top:12px"><div class="sectionLabel">Log Sets</div>${rows}
+        <textarea class="note" placeholder="Notes (optional)" oninput="saveNotes(this.value)">${log.notes||''}</textarea>
+      </div>
+    </div>
+    <div class="sticky" id="stickyBar"><button class="btn btnGhost" onclick="toast('Saved')">Save</button><button class="btn btnPrimary" onclick="toast('Completed');nav('/calendar')">Complete</button></div>
+  `;
+}
+function bottomNav(){
+  const active=p=> (state.route===p|| (p==='/calendar' && (state.route.startsWith('/workout/')||state.route.startsWith('/exercise/'))))?'active':'';
+  return `<div class="nav"><div class="navbtn ${active('/calendar')}" onclick="nav('/calendar')">Calendar</div>
+    <div class="navbtn ${active('/workouts')}" onclick="nav('/workouts')">Workouts</div>
+    <div class="navbtn" onclick="toast('Progress (soon)')">Progress</div><div class="navbtn" onclick="toast('Messages (soon)')">Messages</div></div>`;
+}
+function render(){
+  const app=document.getElementById('app'); let html='';
+  if(state.route.startsWith('/workout/')) html=workoutDetailPage(state.route.split('/')[2]);
+  else if(state.route.startsWith('/exercise/')) {const parts=state.route.split('/'); html=exercisePage(parts[2],parts[3]);}
+  else if(state.route==='/workouts') html=workoutsPage();
+  else html=calendarPage();
+  app.innerHTML=html+bottomNav();
+  const sticky=document.getElementById('stickyBar'); if(sticky) sticky.style.display='flex';
+}
+function selectWorkout(id){state.selectedWorkoutId=id;render();}
+function openWorkout(id){nav('/workout/'+id);}
+function openExercise(wid,eid){state.currentWorkoutId=wid;state.currentExerciseId=eid;nav('/exercise/'+wid+'/'+eid);}
+/* picker */
+function openPicker(label,title,setIndex,field){
+  const db=getDB(); const key=state.currentWorkoutId+":"+state.currentExerciseId;
+  document.getElementById('pickerLabel').textContent=label.toUpperCase(); document.getElementById('pickerTitle').textContent=title;
+  const list=document.getElementById('pickerList'); list.innerHTML='';
+  const values=(field==='reps')?Array.from({length:31}).map((_,i)=>i):Array.from({length:201}).map((_,i)=>i*2.5).filter(v=>v<=500);
+  const current=db.logs[key].sets[setIndex][field];
+  values.forEach(v=>{const row=document.createElement('div');row.className='opt'+(v===current?' sel':'');
+    row.innerHTML=`<span>${v}</span><span style="color:rgba(255,255,255,.45)">${field==='reps'?'reps':'lb'}</span>`;
+    row.onclick=()=>{const db2=getDB();db2.logs[key].sets[setIndex][field]=v;setDB(db2);closePicker();render();toast('Updated');};
+    list.appendChild(row);});
+  document.getElementById('pickerScrim').style.display='flex';
+}
+function closePicker(){document.getElementById('pickerScrim').style.display='none';}
+/* preview toggle */
+let previewOn=false; function togglePreview(){previewOn=!previewOn;document.getElementById('previewBadge').textContent=previewOn?'Playing':'Preview (tap)';toast(previewOn?'Preview playing':'Preview paused');}
+/* notes */
+function saveNotes(v){const db=getDB(); const key=state.currentWorkoutId+":"+state.currentExerciseId; db.logs[key].notes=v; setDB(db);}
+/* timer */
+let timerSec=0,timerRunning=false,timerInt=null;
+function openTimer(){document.getElementById('timerScrim').style.display='flex';updateTimerUI();}
+function closeTimer(){document.getElementById('timerScrim').style.display='none';}
+function preset(s){timerSec=s;updateTimerUI();}
+function fmt(s){const m=Math.floor(s/60),r=s%60;return String(m).padStart(2,'0')+':'+String(r).padStart(2,'0');}
+function updateTimerUI(){document.getElementById('timeTxt').textContent=fmt(timerSec);document.getElementById('startBtn').textContent=timerRunning?'Pause':'Start';document.getElementById('timerSub').textContent=timerRunning?'Running…':'Tap a preset or Start';}
+function tick(){if(timerSec>0) timerSec--; updateTimerUI(); if(timerSec===0){clearInterval(timerInt);timerInt=null;timerRunning=false;updateTimerUI();toast('Rest over');}}
+function toggleTimer(){if(timerRunning){clearInterval(timerInt);timerInt=null;timerRunning=false;updateTimerUI();return;} timerRunning=true; timerInt=setInterval(tick,1000); updateTimerUI();}
+function resetTimer(){timerSec=0; if(timerInt) clearInterval(timerInt); timerInt=null; timerRunning=false; updateTimerUI();}
+render();
+</script></body></html>
